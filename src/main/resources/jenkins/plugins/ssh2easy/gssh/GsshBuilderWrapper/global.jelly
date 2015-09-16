@@ -19,6 +19,9 @@
                    type="password" value="${serverGroup.password}"
     		/>
           </f:entry>  
+          <f:entry title="Private Key" help="${helpURL}/help-privatekey.html">
+            <f:textbox name="gssh.sg.wrapper.privatekey" default=""  value="${serverGroup.privatekey}"/>
+          </f:entry>
           <f:entry title="">
           <div align="right">
             <f:repeatableDeleteButton />

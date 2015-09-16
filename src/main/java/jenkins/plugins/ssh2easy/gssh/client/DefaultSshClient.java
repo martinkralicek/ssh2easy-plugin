@@ -32,25 +32,26 @@ public class DefaultSshClient extends AbstractSshClient {
 	private int port;
 	private String username;
 	private String password;
+        private String privatekey;
 
-	public DefaultSshClient(String ip, int port, String username,
-			String password) {
+	public DefaultSshClient(String ip, int port, String username, String password, String privatekey) {
 		this.ip = ip;
 		this.port = port;
 		this.username = username;
 		this.password = password;
+                this.privatekey = privatekey;
 	}
 
 	public DefaultSshClient(ServerGroup serverGroup, String ip) {
 		this.port = serverGroup.getPort();
 		this.username = serverGroup.getUsername();
 		this.password = serverGroup.getPassword();
+                this.privatekey = serverGroup.getPrivatekey();
 		this.ip = ip;
 	}
 
-	public static SshClient newInstance(String ip, int port, String username,
-			String password) {
-		return new DefaultSshClient(ip, port, username, password);
+	public static SshClient newInstance(String ip, int port, String username, String password, String privatekey) {
+		return new DefaultSshClient(ip, port, username, password, privatekey);
 	}
 
 	public static SshClient newInstance(ServerGroup group, String ip) {
@@ -263,6 +264,14 @@ public class DefaultSshClient extends AbstractSshClient {
 		return StringEscapeUtils.unescapeHtml(input);
 	}
 
+        public String getPrivatekey() {
+		return privatekey;
+	}
+
+	public void setPrivatekey(String privatekey) {
+		this.privatekey = privatekey;
+	}
+        
 	public String getIp() {
 		return ip;
 	}

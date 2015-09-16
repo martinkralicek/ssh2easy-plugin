@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.File;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,18 +22,16 @@ import com.trilead.ssh2.Session;
 public class JenkinsSshClient extends DefaultSshClient {
 	private static final Logger LOG = Logger.getLogger(JenkinsSshClient.class);
 	
-	public JenkinsSshClient(String ip, int port, String username,
-			String password) {
-		super(ip, port, username, password);
+	public JenkinsSshClient(String ip, int port, String username, String password, String privatekey) {
+		super(ip, port, username, password, privatekey);
 	}
 
 	public JenkinsSshClient(ServerGroup serverGroup, String ip) {
 		super(serverGroup, ip);
 	}
 
-	public static SshClient newInstance(String ip, int port, String username,
-			String password) {
-		return new JenkinsSshClient(ip, port, username, password);
+	public static SshClient newInstance(String ip, int port, String username, String password, String privatekey) {
+		return new JenkinsSshClient(ip, port, username, password, privatekey);
 	}
 
 	public static SshClient newInstance(ServerGroup group, String ip) {
@@ -42,14 +41,28 @@ public class JenkinsSshClient extends DefaultSshClient {
 	public Connection getConnection() throws IOException {
 		Connection conn = new Connection(this.getIp(), this.getPort());
 		conn.connect();
-		boolean isAuthenticated = conn.authenticateWithPassword(
-				this.getUsername(), this.getPassword());
+		boolean isAuthenticated;
+                String mode;
+                 
+                if (!this.getPrivatekey().isEmpty())
+                {
+                    mode="authenticateWithPublicKey";
+                    File fileKey = new File(this.getPrivatekey());
+                    isAuthenticated = conn.authenticateWithPublicKey(this.getUsername(), fileKey, this.getPassword());
+                }else if (this.getPassword().isEmpty())
+                {
+                    mode="authenticateWithNone";
+                    isAuthenticated = conn.authenticateWithNone(this.getUsername());
+                } else
+                {
+                    mode="authenticateWithPassword";
+                    isAuthenticated = conn.authenticateWithPassword(this.getUsername(), this.getPassword());
+                }
+                
 		if (!isAuthenticated) {
 			throw new IOException("Authentication failed.");
 		}
-		LOG.info("create ssh session success with ip=[" + getIp()
-				 + "],port=[" + getPort() + "],username=[" + getUsername()
-				 + "],password=[*******]");
+                LOG.info("create ssh session success with " + getUsername() + "@" + getIp() + " to port: " + getPort() + " mode: " + mode);
 		return conn;
 	}
 
@@ -58,9 +71,7 @@ public class JenkinsSshClient extends DefaultSshClient {
 		try {
 			conn = getConnection();
 		} catch (Exception e) {
-			logger.println("create ssh session failed with ip=[" + this.getIp()
-					+ "],port=[" + this.getPort() + "],username=["
-					+ this.getUsername() + "],password=[*******]");
+			logger.println("create ssh session failed with " + getUsername() + "@" + getIp() + " to port: " + getPort());
 			e.printStackTrace(logger);
 			throw new GsshPluginException(e);
 		}

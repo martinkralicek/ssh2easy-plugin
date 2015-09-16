@@ -10,17 +10,18 @@ public class ServerGroup {
 	private int port;
 	private String username;
 	private String password;
+        private String privatekey;
 
 	public ServerGroup() {
 	}
 
 	@DataBoundConstructor
-	public ServerGroup(String groupName, int port, String username,
-			String password) {
+	public ServerGroup(String groupName, int port, String username, String password, String privatekey) {
 		this.groupName = groupName;
 		this.port = port;
 		this.username = username;
 		this.password = password;
+                this.privatekey = privatekey;
 	}
 
 	public SshClient getSshClient(Server server) {
@@ -31,6 +32,14 @@ public class ServerGroup {
 		return JenkinsSshClient.newInstance(this, ip);
 	}
 
+        public String getPrivatekey() {
+		return privatekey;
+	}
+
+	public void setPrivatekey(String privatekey) {
+		this.privatekey = privatekey;
+	}
+        
 	public String getGroupName() {
 		return groupName;
 	}
