@@ -2,73 +2,73 @@ package jenkins.plugins.ssh2easy.gssh;
 
 import jenkins.plugins.ssh2easy.gssh.client.JenkinsSshClient;
 import jenkins.plugins.ssh2easy.gssh.client.SshClient;
-
 import org.kohsuke.stapler.DataBoundConstructor;
 
 public class ServerGroup {
-	private String groupName;
-	private int port;
-	private String username;
-	private String password;
-        private String privatekey;
 
-	public ServerGroup() {
-	}
+    private String groupName;
+    private int port;
+    private String username;
+    private String password;
+    private String privatekey;
 
-	@DataBoundConstructor
-	public ServerGroup(String groupName, int port, String username, String password, String privatekey) {
-		this.groupName = groupName;
-		this.port = port;
-		this.username = username;
-		this.password = password;
-                this.privatekey = privatekey;
-	}
+    public ServerGroup() {
+    }
 
-	public SshClient getSshClient(Server server) {
-		return JenkinsSshClient.newInstance(this, server.getIp());
-	}
+    @DataBoundConstructor
+    public ServerGroup(String groupName, int port, String username, String password, String privatekey) {
+        this.groupName = groupName;
+        this.port = port;
+        this.username = username;
+        this.password = password;
+        this.privatekey = privatekey;
+    }
 
-	public SshClient getSshClient(String ip) {
-		return JenkinsSshClient.newInstance(this, ip);
-	}
+    public SshClient getSshClient(Server server) {
+        return JenkinsSshClient.newInstance(this, server.getIp());
+    }
 
-        public String getPrivatekey() {
-		return privatekey;
-	}
+    public SshClient getSshClient(String ip) {
+        return JenkinsSshClient.newInstance(this, ip);
+    }
 
-	public void setPrivatekey(String privatekey) {
-		this.privatekey = privatekey;
-	}
-        
-	public String getGroupName() {
-		return groupName;
-	}
+    public String getPrivatekey() {
+        return privatekey;
+    }
 
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
-	}
+    public void setPrivatekey(String privatekey) {
+        this.privatekey = privatekey;
+    }
 
-	public int getPort() {
-		return port;
-	}
+    public String getGroupName() {
+        return groupName;
+    }
 
-	public void setPort(int port) {
-		this.port = port;
-	}
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public int getPort() {
+        return port;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public void setPort(int port) {
+        this.port = port;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getUsername() {
+        return username;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

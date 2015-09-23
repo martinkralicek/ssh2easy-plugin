@@ -3,31 +3,36 @@
 	<parent>
 		<groupId>org.jenkins-ci.plugins</groupId>
 		<artifactId>plugin</artifactId>
-		<version>1.612</version><!-- which version of Jenkins is this plugin built 
-			against? -->
+		<version>1.629</version>
 	</parent>
 
 	<artifactId>ssh2easy</artifactId>
-	<version>1.4-SNAPSHOT</version>
+	<version>1.4.2-SNAPSHOT</version>
 	<packaging>hpi</packaging>
 	<name>SSH2 Easy Plugin</name>
-	<description>This plugin allows you to ssh2 remote server to execute linux commands , shell , sftp upload, downlaod etc</description>
-	<scm>
-		<connection>scm:git:ssh://github.com/jenkinsci/ssh2easy.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/jenkinsci/ssh2easy.git</developerConnection>
-		<url>https://github.com/jenkinsci/ssh2easy</url>
-	    <tag>ssh2easy-1.0</tag>
-  </scm>
+	<description>Fork of original SSH2Easy Plugin</description>
 	<url>https://wiki.jenkins-ci.org/display/JENKINS/SSH2Easy+Plugin</url>
 	<developers>
 		<developer>
-			<id>jerrycai</id>
-			<name>Jerry Cai</name>
-			<email>nwwh@qq.com</email>
+			<id>martinkralicek</id>
+			<name>Martin Kralicek</name>
+			<email>martin.kralicek@hotmail.com</email>
 		</developer>
 	</developers>
-
-	<properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -56,17 +61,17 @@
 		<dependency>
 			<groupId>com.jcraft</groupId>
 			<artifactId>jsch</artifactId>
-			<version>0.1.48</version>
+			<version>0.1.53</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.hudson</groupId>
 			<artifactId>trilead-ssh2</artifactId>
-			<version>build212-hudson-6</version>
+			<version>build214-hudson-1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jenkins-ci.plugins</groupId>
 			<artifactId>matrix-auth</artifactId>
-			<version>1.0.2</version>
+			<version>1.2</version>
 		</dependency>
 	</dependencies>
 </project>
